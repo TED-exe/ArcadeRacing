@@ -1,5 +1,4 @@
-﻿using Autodesk.Fbx;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -49,6 +48,14 @@ public class CarPhysics : MonoBehaviour
     private float targetRotation;
     private float horizontalInput;
     private float accelerationInput;
+
+    private void OnValidate()
+    {
+        if(gameObject.TryGetComponent<CarAi>(out var ai))
+        {
+            controlAI = true;
+        }
+    }
     private void Update()
     {
         if (!controlAI)
@@ -205,27 +212,5 @@ public class CarPhysics : MonoBehaviour
         {
             steeringWheelsTransform[i].localEulerAngles = new Vector3(0, targetRotation, 0);
         }
-
-
-        //
-        //
-        //
-        //
-
-
-        /*if (horizontalInput != 0)
-        {
-            targetRotation += horizontalInput * wheelsRotateSpeed * Time.fixedDeltaTime;
-            targetRotation = Mathf.Clamp(targetRotation, -wheelsRotationLimit, wheelsRotationLimit);
-        }
-        else if (horizontalInput == 0)
-        {
-            targetRotation = Mathf.MoveTowards(targetRotation, 0f, wheelsRotateBackSpeed * Time.fixedDeltaTime);
-        }
-
-        for (int i = 0; i < steeringWheelsTransform.Length; i++)
-        {
-            steeringWheelsTransform[i].localEulerAngles = new Vector3(0, targetRotation, 0);
-        }*/
     }
 }

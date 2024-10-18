@@ -1,68 +1,15 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 
 public class CarAi : MonoBehaviour
 {
-    [Header("REFERENCE")]
-    [SerializeField] private Transform mouseIndicator;
-    [SerializeField] private DrawPath path;
-    private CarPhysics carPhysics;
-    [Header("SETTING")]
-    [SerializeField, Range(0.1f, 10f)] private float waypointRadius;
-    [SerializeField] private bool usePath = true;
-    private int currWayPoint = 0;
-    private Vector3 targetPosition;
-
-    private void Awake()
+    [SerializeField] private WaypointPath CurrSelectedPath;
+    private void AiControll()
     {
-        carPhysics = GetComponent<CarPhysics>();
+
     }
-    private void FixedUpdate()
-    {
-        float turnAmount = AiSteering();
-        float acceleration =AiDrive();
-        
-        if(usePath)
-            targetPosition = CheckWayPointDistance();
-        else
-            targetPosition = mouseIndicator.position;
-
-        carPhysics.GetInput(turnAmount, acceleration);
-    }
-    private Vector3 CheckWayPointDistance()
-    {
-        if (Vector3.Distance(transform.position, path.wayPoints[currWayPoint].position) < waypointRadius)
-        {
-            if (currWayPoint == path.wayPoints.Count - 1)
-                currWayPoint = 0;
-            else
-                currWayPoint++;
-        }
-        return path.wayPoints[currWayPoint].position;
-    }
-    private float AiDrive()
-    {
-        return 1;
-    }
-
-    private float AiSteering()
-    {
-        Vector3 dirToTargetPosition = (targetPosition - transform.position).normalized;
-        float angleToDir = Vector3.SignedAngle(transform.forward, dirToTargetPosition, Vector3.up);
-
-        Debug.Log(angleToDir);
-        //if (angleToDir > 0)
-        //    turnAmount = angleToDir;
-        //else
-        //    turnAmount = -angleToDir;
-
-        return angleToDir /180f;
-    }
-
-
-
 
     /*private void AiControll()
     {
@@ -130,9 +77,4 @@ public class CarAi : MonoBehaviour
 
         carPhysics.GetInput(turnAmount, acceleration);
     }*/
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(path.wayPoints[currWayPoint].position, waypointRadius);
-    }
 }
