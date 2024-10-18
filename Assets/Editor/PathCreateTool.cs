@@ -9,6 +9,7 @@ public class PathCreateTool : EditorWindow
     //UI
     private Button createWaypointsButton;
     private Button createPathButton;
+    private ListView pathsList;
 
     // Building mode
     private bool createPathMode = false;
@@ -53,6 +54,9 @@ public class PathCreateTool : EditorWindow
         Selection.selectionChanged += OnSelectionChanged;
 
         SceneView.duringSceneGui += OnSceneGUI;
+
+        pathsList = new ListView();
+        root.Add(pathsList);
 
         // Rejestracja nasłuchiwania stanu trybu Play Mode
         EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
